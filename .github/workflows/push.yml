@@ -1,17 +1,19 @@
-on: push
 name: npm build, test and publish
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
 jobs:
-  build-and-publish:
-    name: build and publish
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@main
-      - name: npm install
-        uses: actions/npm@main
-        with:
-          args: install
-      - name: npm test
-        uses: actions/npm@main
-        with:
-          args: run test
-     
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with: 
+          node-version: "14.x"
+      - name: Install dependencies
+        run: npm install
+      - name: Run test
+        run: npm test
