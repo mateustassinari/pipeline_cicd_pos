@@ -14,7 +14,4 @@ jobs:
         uses: actions/npm@master
         with:
           args: run test
-      - name: docker build
-        uses: actions/docker/cli@master
-        with:
-          args: build -t mateustassinari/pipeline_cicd_pos .
+     
