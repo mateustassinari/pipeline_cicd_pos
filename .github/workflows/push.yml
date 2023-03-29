@@ -1,0 +1,20 @@
+on: push
+name: npm build, test and publish
+jobs:
+  build-and-publish:
+    name: build and publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - name: npm install
+        uses: actions/npm@master
+        with:
+          args: install
+      - name: npm test
+        uses: actions/npm@master
+        with:
+          args: run test
+      - name: docker build
+        uses: actions/docker/cli@master
+        with:
+          args: build -t mateustassinari/pipeline_cicd_pos .
