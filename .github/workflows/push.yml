@@ -24,5 +24,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build :latest
-        run: docker build -t ${GITHUB_REPOSITORY}:latest .     
+        run: docker build -t ${GITHUB_REPOSITORY}:latest .   
+      - name: Login to docker hub
+        uses: actions-hub/docker/login@master
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}  
+      - name: Push to docker hub :latest
+        uses: actions-hub/docker@master
+        with:
+          args: push ${GITHUB_REPOSITORY}:latest
       
