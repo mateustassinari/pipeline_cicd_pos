@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
-      - name: docker build
-        uses: actions/docker/cli@master
-        with:
-          args: build -t mateustassinari/pipeline_cicd_pos .
+      - uses: actions/checkout@v2
+      - name: Build :latest
+        run: docker build -t ${GITHUB_REPOSITORY}:latest .     
+      
