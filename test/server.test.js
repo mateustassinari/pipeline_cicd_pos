@@ -21,6 +21,6 @@ describe('simple get request 404', () => {
 describe('simple get request 400 id not found', () => {
   it('should return 400', async () => {
     const response = await agent.get('/users/5').send();
-    expect(response.status).toEqual(200);
+    expect(response.status).toEqual(400);
   });
 });
