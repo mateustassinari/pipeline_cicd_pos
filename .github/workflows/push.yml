@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build :latest
-        run: docker build -t ${GITHUB_REPOSITORY}:1.0 .   
+        run: docker build -t ${GITHUB_REPOSITORY}:2.0 .   
       - name: Login to docker hub
         uses: actions-hub/docker/login@master
         env:
@@ -33,5 +33,5 @@ jobs:
       - name: Push to docker hub :latest
         uses: actions-hub/docker@master
         with:
-          args: push ${GITHUB_REPOSITORY}:1.0
+          args: push ${GITHUB_REPOSITORY}:2.0
       

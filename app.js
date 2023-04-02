@@ -69,5 +69,22 @@ app.get('/users/:id', (req, res) => {
    
 });
 
+app.get('/users/types', (req, res) => {
+
+    let types = [{
+        name:'admin',
+        id:1
+    },{
+        name:'customer',
+        id:2
+    }];
+
+    res.statusCode = 200;
+    res.setHeader('Content-Type','application/json');
+    res.end(JSON.stringify({
+        types
+    }));
+   
+});
 
 module.exports = app;

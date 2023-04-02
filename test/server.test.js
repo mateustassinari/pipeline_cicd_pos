@@ -24,3 +24,10 @@ describe('simple get request 400 id not found', () => {
     expect(response.status).toEqual(400);
   });
 });
+
+describe('simple get request', () => {
+  it('should return 200 ok', async () => {
+    const response = await agent.get('/types').send();
+    expect(response.status).toEqual(200);
+  });
+});
