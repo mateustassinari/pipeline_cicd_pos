@@ -27,7 +27,7 @@ describe('simple get request 400 id not found', () => {
 
 describe('simple get request', () => {
   it('should return 200 ok', async () => {
-    const response = await agent.get('/users/types').send();
+    const response = await agent.get('/products').send();
     expect(response.status).toEqual(200);
   });
 });

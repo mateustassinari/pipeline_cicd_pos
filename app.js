@@ -69,20 +69,20 @@ app.get('/users/:id', (req, res) => {
    
 });
 
-app.get('/users/types', (req, res) => {
+app.get('/products', (req, res) => {
 
-    let types = [{
-        name:'admin',
+    let products = [{
+        name:'Notebook',
         id:1
     },{
-        name:'customer',
+        name:'Monitor',
         id:2
     }];
 
     res.statusCode = 200;
     res.setHeader('Content-Type','application/json');
     res.end(JSON.stringify({
-        types
+        products
     }));
    
 });
