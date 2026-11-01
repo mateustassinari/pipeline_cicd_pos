@@ -1,12 +1,8 @@
-FROM node:10.16.0-alpine
-
-WORKDIR /source/pipeline_cicd_pos
-
-COPY package.json /source/pipeline_cicd_pos
-
-RUN cd /source/pipeline_cicd_pos && npm i
-
-COPY . .
-
+FROM node:26-alpine
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
+COPY src ./src
+USER node
 EXPOSE 3000
-CMD ["sh", "-c", "node server.js"]
+CMD ["npm", "start"]

@@ -2,36 +2,40 @@ name: npm build, test and publish
 on:
   push:
     branches: [ main ]
+  pull_request:
   workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Use Node.js
-        uses: actions/setup-node@v2
-        with: 
-          node-version: "14.x"
+        uses: actions/setup-node@v4
+        with:
+          node-version: "26"
+          cache: npm
       - name: Install dependencies
-        run: npm install
-      - name: Run test
+        run: npm ci
+      - name: Run tests
         run: npm test
 
   deploy:
     runs-on: ubuntu-latest
     needs: [build]
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     steps:
-      - uses: actions/checkout@v2
-      - name: Build :latest
-        run: docker build -t ${GITHUB_REPOSITORY}:2.0 .   
-      - name: Login to docker hub
-        uses: actions-hub/docker/login@master
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}  
-      - name: Push to docker hub :latest
-        uses: actions-hub/docker@master
+      - uses: actions/checkout@v4
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
         with:
-          args: push ${GITHUB_REPOSITORY}:2.0
-      
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/pipeline_cicd_pos:latest
+            ${{ secrets.DOCKER_USERNAME }}/pipeline_cicd_pos:${{ github.sha }}
